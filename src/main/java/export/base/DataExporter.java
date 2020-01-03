@@ -28,11 +28,15 @@ public abstract class DataExporter<T> {
     protected boolean hasIndex = false;
     // 默认使用注解的字段
     protected boolean useNeedColumn = true;
+    // 输出文件名
+    protected String fileName;
 
-    public DataExporter(List<T> dataList, OutputStream outputStream) {
+    public DataExporter(List<T> dataList, OutputStream outputStream, String fileName) {
         this.headList = new ArrayList<>();
+        this.fieldList = new ArrayList<>();
         this.dataList = dataList;
         this.outputStream = outputStream;
+        this.fileName = fileName;
         init();
     }
 
@@ -44,7 +48,7 @@ public abstract class DataExporter<T> {
         }
     }
 
-    public void initHead() throws BaseExportException{
+    private void initHead() throws BaseExportException{
         T t = this.dataList.get(0);
         if(t == null){
             throw new BaseExportException("数据导出前错误，【initHead】 t == null");
@@ -87,7 +91,7 @@ public abstract class DataExporter<T> {
         return null;
     }
 
-    public abstract OutputStream export() throws IOException;
+    public abstract OutputStream export() throws Exception;
 
     public abstract void outputHead();
 

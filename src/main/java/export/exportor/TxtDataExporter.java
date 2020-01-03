@@ -1,14 +1,12 @@
 package export.exportor;
 
 import export.base.DataExporter;
-import export.base.DataFieldMapper;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,21 +17,18 @@ public class TxtDataExporter<T> extends DataExporter<T> {
     private File file;
     private FileWriter fileWriter;
 
-    public TxtDataExporter(List<T> dataList,OutputStream outputStream) {
-        super(dataList,outputStream);
-    }
 
     public TxtDataExporter(List<T> dataList, OutputStream outputStream, String split, String fileName) {
-        super(dataList, outputStream);
+        super(dataList, outputStream,fileName);
         this.split = split;
-        initFile(fileName);
+        initFile();
     }
     public TxtDataExporter(List<T> dataList, OutputStream outputStream, String fileName) {
-        super(dataList, outputStream);
-        initFile(fileName);
+        super(dataList, outputStream,fileName);
+        initFile();
     }
 
-    public void initFile(String fileName){
+    public void initFile(){
         this.file = new File(fileName);
         File parentFile = file.getParentFile();
         if(!parentFile.exists()){
@@ -53,6 +48,7 @@ public class TxtDataExporter<T> extends DataExporter<T> {
     public OutputStream export() throws IOException {
         outputHead();
         outputBody();
+        fileWriter.close();
         return outputStream;
     }
 
@@ -74,7 +70,7 @@ public class TxtDataExporter<T> extends DataExporter<T> {
             sb.append(++currentRow).append(split);
         }
         for(Field f : fieldList){
-            sb.append(f.getName()).append(split);
+            sb.append(getValue(t,f.getName())).append(split);
         }
         return sb.deleteCharAt(sb.length()-1).toString();
     }
@@ -95,8 +91,9 @@ public class TxtDataExporter<T> extends DataExporter<T> {
     }
 
     public void writeString() throws IOException{
-//        outputStream.write(stringBuilder.toString().getBytes("utf8"));
+        outputStream.write(stringBuilder.toString().getBytes("utf8"));
         fileWriter.write(stringBuilder.toString());
+        fileWriter.flush();
         stringBuilder.delete(0,stringBuilder.length());
     }
 

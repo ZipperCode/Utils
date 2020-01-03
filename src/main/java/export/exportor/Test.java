@@ -1,6 +1,7 @@
 package export.exportor;
 
 import export.ExportBean;
+import export.exception.BaseExportException;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -13,10 +14,19 @@ public class Test {
         for (int i = 0; i < 200; i++) {
             export.add(new ExportBean(""+i,"haha-"+i,i));
         }
-        TxtDataExporter<ExportBean> txtDataExporter = new TxtDataExporter(export,OutputStream.nullOutputStream(), "D://111//1.txt");
+//        TxtDataExporter<ExportBean> txtDataExporter = new TxtDataExporter(export,null, "D://111//1.txt");
+//        try {
+//            txtDataExporter.export();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        ExcelDataExporter<ExportBean> excelDataExporter = new ExcelDataExporter(export,null,"D://111//1.xls");
+        excelDataExporter.initExcel();
         try {
-            txtDataExporter.export();
+            excelDataExporter.export();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (BaseExportException e) {
             e.printStackTrace();
         }
     }

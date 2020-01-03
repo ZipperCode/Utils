@@ -7,5 +7,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DataName {
     String value() default "";
-    boolean hasIndex() default false; // 是否需要序号
+    boolean hasIndex() default true; // 是否需要序号
 }
