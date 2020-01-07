@@ -10,11 +10,13 @@ public class InjectHandler {
         Field[] fields = object.getClass().getDeclaredFields();
         try {
             for (Field field : fields) {
-                Inject inject = field.getAnnotation(Inject.class);
-                if (inject != null) {
-                    field.setAccessible(true);
-                    Object fieldObject = field.getType().getDeclaredConstructor().newInstance();
-                    field.set(object,fieldObject);
+                if(field.isAnnotationPresent(Inject.class)){
+                    Inject inject = field.getAnnotation(Inject.class);
+                    if (inject != null) {
+                        field.setAccessible(true);
+                        Object fieldObject = field.getType().getDeclaredConstructor().newInstance();
+                        field.set(object,fieldObject);
+                    }
                 }
             }
         } catch (Exception e) {
