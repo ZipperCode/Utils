@@ -1,9 +1,11 @@
 package reflect;
 
 import annotation.Inject;
+import annotation.NonNull;
 
 public class Test {
     @Inject
+    @NonNull
     private String string;
 
 
