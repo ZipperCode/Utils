@@ -36,6 +36,13 @@ public class ValidUtils {
         return (map == null || map.isEmpty());
     }
 
+    /**
+     * 判断某个对象是否为空，如果isValidAttribute为true表示也验证对象包含NonNull注解的属性
+     * @param t
+     * @param isValidAttribute
+     * @param <T>
+     * @return
+     */
     public static <T> boolean isEmpty(T t, boolean isValidAttribute){
         if(t == null){
             return true;
@@ -74,42 +81,68 @@ public class ValidUtils {
         return result;
     }
 
-    public static boolean isDigest(String value){
-        return isPattern(value,"^[+-]?[1-9]\\d*\\.\\d+$");
-    }
-
-    public static boolean isEmail(String value){
-        return isPattern(value,"^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
-    }
-
-    public static boolean isIp(String value){
-        return isPattern(value,"\\d+\\.\\d+\\.\\d+\\.\\d+");
-    }
-
-    public static boolean matchIp(String ip){
-        return isPattern(ip,"((?:(?:25[0-5]|2[0-4]\\\\d|[01]?\\\\d?\\\\d)\\\\.){3}(?:25[0-5]|2[0-4]\\\\d|[01]?\\\\d?\\\\d))");
-    }
-
     public static boolean isPattern(String value, String pattern){
         if(isEmpty(value) || isEmpty(pattern))
             return false;
         Matcher matcher = Pattern.compile(pattern).matcher(value);
         return matcher.matches();
-//        return value.matches(pattern);
     }
 
-    public static boolean isChinese(String value)
-    {
+    public static boolean matchIp(String ip){
+        if(ValidUtils.isEmpty(ip)){
+            return false;
+        }
+        return isPattern(ip,"((?:(?:25[0-5]|2[0-4]\\\\d|[01]?\\\\d?\\\\d)\\\\.){3}(?:25[0-5]|2[0-4]\\\\d|[01]?\\\\d?\\\\d))");
+    }
+
+
+    public static boolean isDigest(String value){
+        if(ValidUtils.isEmpty(value)){
+            return false;
+        }
+        return isPattern(value,"^[+-]?[1-9]\\d*\\.\\d+$");
+    }
+
+    public static boolean isEmail(String email){
+        if(ValidUtils.isEmpty(email)){
+            return false;
+        }
+        return isPattern(email,"^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
+    }
+
+    public static boolean isIp(String ip){
+        if(ValidUtils.isEmpty(ip)){
+            return false;
+        }
+        return isPattern(ip,"\\d+\\.\\d+\\.\\d+\\.\\d+");
+    }
+
+    public static boolean isChinese(String value) {
+        if(ValidUtils.isEmpty(value)){
+            return false;
+        }
         return isPattern(value, "^[\\u4E00-\\u9FA5\\uF900-\\uFA2D]+$");
     }
 
-    public static boolean isAscii(String value)
-    {
+    public static boolean isAscii(String value) {
+        if(ValidUtils.isEmpty(value)){
+            return false;
+        }
         return isPattern(value, "^[\\x00-\\xFF]+$");
     }
 
     public static boolean isUrl(String value){
+        if(ValidUtils.isEmpty(value)){
+            return false;
+        }
         return isPattern(value, "^http[s]?:\\/\\/([\\w-]+\\.)+[\\w-]+([\\w-./?%&=]*)?$");
+    }
+
+    public static boolean isPhone(String value){
+        if(ValidUtils.isEmpty(value)){
+            return false;
+        }
+        return isPattern(value,"^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$");
     }
 
     public static void main(String[] args) {
