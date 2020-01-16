@@ -1,6 +1,3 @@
-import com.sun.tools.javac.jvm.ClassReader;
-import jdk.internal.org.objectweb.asm.commons.AdviceAdapter;
-
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 
