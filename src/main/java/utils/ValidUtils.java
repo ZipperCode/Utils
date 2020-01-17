@@ -25,7 +25,7 @@ public class ValidUtils {
     }
 
     public static boolean isEmpty(String value){
-        return (value == null || "".equals(value)) ? true : false;
+        return value == null || "".equals(value);
     }
 
     public static boolean isEmpty(Collection<?> collection){

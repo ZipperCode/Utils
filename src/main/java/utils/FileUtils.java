@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
  **/
 public class FileUtils {
 
+    private static final int BUF_SIZE = 1024 * 4;
+
     public static String getFileExt(String fileName){
         if(ValidUtils.isEmpty(fileName)){
             return "";
@@ -96,7 +98,7 @@ public class FileUtils {
         try{
             FileInputStream fileInputStream = new FileInputStream(src);
             FileOutputStream fileOutputStream = new FileOutputStream(desc);
-            byte buff[] = new byte[1024];
+            byte buff[] = new byte[BUF_SIZE];
             int len = 0;
             while((len = fileInputStream.read(buff)) != -1){
                 fileOutputStream.write(buff,0, len);
@@ -112,7 +114,7 @@ public class FileUtils {
         try{
             FileChannel srcFileChannel = new RandomAccessFile(src,"r").getChannel();
             FileChannel descFileChannel = new RandomAccessFile(desc,"rw").getChannel();
-            ByteBuffer buffer = ByteBuffer.allocate(1024);
+            ByteBuffer buffer = ByteBuffer.allocate(BUF_SIZE);
             while(srcFileChannel.read(buffer) != -1){
                 buffer.flip();
                 descFileChannel.write(buffer);
@@ -133,10 +135,10 @@ public class FileUtils {
                 long size = srcFileChannel.size();
                 MappedByteBuffer readMappedByteBuffer = srcFileChannel.map(FileChannel.MapMode.READ_ONLY,0,size);
                 MappedByteBuffer writeMappedByteBuffer = descFileChannel.map(FileChannel.MapMode.READ_WRITE,0,size);
-                byte buff[] = new byte[1024];
+                byte buff[] = new byte[BUF_SIZE];
                 int len = 0;
                 while((len = readMappedByteBuffer.remaining()) != 0){
-                    if(len < 1024){
+                    if(len < BUF_SIZE){
                         readMappedByteBuffer.get(buff,0,len);
                         writeMappedByteBuffer.put(buff,0, len );
                     }else{
@@ -156,6 +158,7 @@ public class FileUtils {
         }
     }
 
+
     public static long getTime(){
         return System.currentTimeMillis();
     }
@@ -166,25 +169,25 @@ public class FileUtils {
         if(!desc.exists()){
             desc.createNewFile();
         }
-        //fullCopy  time = 3951
+        //zeroCopy  time = 3951
 //        long l1 = getTime();
 //        fullCopy(src,desc);
 //        System.out.println("fullCopy  time = " + (getTime() - l1));
 
-        //buffCopy time = 4221
+        //buffCopy time = 4221 4k 1627
 //        long l2 = getTime();
 //        buffCopy(src,desc);
 //        System.out.println("buffCopy time = "+ (getTime() - l2));
 
-        // channelCopy time = 4062
+        // channelCopy time = 4062 4k 1262
 //        long l3 = getTime();
 //        channelCopy(src,desc);
 //        System.out.println("channelCopy time = "+ (getTime() - l3));
 
-        // menMapCopy time = 12704
-        long l4 = getTime();
-        memMapCopy(src,desc);
-        System.out.println("menMapCopy time = "+ (getTime() - l4));
+        // menMapCopy time = 12704  4k 3508
+//        long l4 = getTime();
+//        memMapCopy(src,desc);
+//        System.out.println("menMapCopy time = "+ (getTime() - l4));
     }
 
 }

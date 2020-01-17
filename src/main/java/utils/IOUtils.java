@@ -3,6 +3,7 @@ package utils;
 import org.apache.http.util.CharArrayBuffer;
 
 import java.io.*;
+import java.util.Date;
 
 public class IOUtils {
     private final static String ENCODING = "UTF-8";
@@ -60,7 +61,7 @@ public class IOUtils {
         }
     }
 
-    public static byte[] serialize(Object object){
+    public static byte[] serialize(Serializable object){
         ObjectOutputStream objectOutputStream = null;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();;
         byte data[] = null;
@@ -93,10 +94,46 @@ public class IOUtils {
         return t;
     }
 
+    public static Serializable unSerializable(byte data[]){
+        ObjectInputStream objectInputStream = null;
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
+        Serializable obj = null;
+        try{
+            objectInputStream  = new ObjectInputStream(byteArrayInputStream);
+            obj = (Serializable) objectInputStream.readObject();
+        }catch (IOException | ClassNotFoundException | ClassCastException e ){
+            e.printStackTrace();
+        }finally {
+            close(byteArrayInputStream);
+            close(objectInputStream);
+        }
+        return obj;
+    }
+
     public static void main(String[] args) {
 //        System.out.println(getFileName("f/dd/agdfg"));
 //        System.out.println("parent Path : "+ getFileParentPath("C:/test/test/t.txt"));
         System.out.println("AB:F7:FE:F9:9E:BE:82:7F:1E:21:14:1C:F8:DD:D1:EC".replaceAll(":","").toLowerCase());
+        byte[] serialize = serialize(new A());
+
+        A a = (A) unSerializable(serialize);
+        System.out.println(a);
+
+    }
+
+    public static class A implements Serializable{
+         int a = 10;
+         String s = "aa";
+         Date date = new Date();
+
+        @Override
+        public String toString() {
+            return "A{" +
+                    "a=" + a +
+                    ", s='" + s + '\'' +
+                    ", date=" + date +
+                    '}';
+        }
     }
 
 }

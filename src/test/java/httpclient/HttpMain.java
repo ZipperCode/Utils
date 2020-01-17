@@ -1,4 +1,4 @@
-package utils.http;
+package httpclient;
 
 import org.apache.http.HeaderElementIterator;
 import org.apache.http.HttpEntity;

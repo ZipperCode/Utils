@@ -55,7 +55,23 @@ public class AsyncClientExecuteProxy {
                     .build();
             HttpGet request = new HttpGet("https://httpbin.org/");
             request.setConfig(config);
-            Future<HttpResponse> future = httpclient.execute(request,null);
+            System.out.println(Thread.currentThread().getName() + "-------->主线程");
+            Future<HttpResponse> future = httpclient.execute(request, new FutureCallback<HttpResponse>() {
+                @Override
+                public void completed(HttpResponse result) {
+                    System.out.println(Thread.currentThread().getName() + "-------->");
+                }
+
+                @Override
+                public void failed(Exception ex) {
+
+                }
+
+                @Override
+                public void cancelled() {
+
+                }
+            });
             HttpResponse response = future.get();
             System.out.println("Response: " + response.getStatusLine());
             System.out.println("Shutting down");

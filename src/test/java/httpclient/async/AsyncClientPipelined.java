@@ -58,12 +58,12 @@ public class AsyncClientPipelined {
                     new HttpGet("/headers"),
                     new HttpGet("/get")
             };
-
+            System.out.println(Thread.currentThread().getName() + "-------->主线程");
             Future<List<HttpResponse>> future = httpclient.execute(targetHost,
                     Arrays.<HttpRequest>asList(resquests), new FutureCallback<List<HttpResponse>>() {
                         @Override
                         public void completed(List<HttpResponse> result) {
-
+                            System.out.println("-------->"+Thread.currentThread().getName());
                         }
 
                         @Override

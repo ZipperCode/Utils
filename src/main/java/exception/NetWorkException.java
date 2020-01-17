@@ -1,13 +1,18 @@
-package utils.http;
+package exception;
 
 public class NetWorkException extends Exception{
 
     public NetWorkException() {
-        super("网络异常");
+        this("网络异常",null);
     }
 
     public NetWorkException(String message) {
-        super(message);
+        this(message,null);
+    }
+
+
+    public NetWorkException(Throwable cause) {
+        this("网络异常",cause);
     }
 
     public NetWorkException(String message, Throwable cause) {
