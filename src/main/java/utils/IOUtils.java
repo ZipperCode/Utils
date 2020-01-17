@@ -3,8 +3,6 @@ package utils;
 import org.apache.http.util.CharArrayBuffer;
 
 import java.io.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class IOUtils {
     private final static String ENCODING = "UTF-8";
@@ -27,45 +25,6 @@ public class IOUtils {
             e.printStackTrace();
         }
         return "";
-    }
-
-    public static String getFileExt(String fileName){
-        if(ValidUtils.isEmpty(fileName)){
-            return "";
-        }
-        String ext = "";
-        int dotIndex = fileName.lastIndexOf(".");
-        if(dotIndex == -1){
-            return "";
-        }
-        return fileName.substring(dotIndex+1).toLowerCase();
-    }
-
-    public static String getFileName(String fileName){
-        if(ValidUtils.isEmpty(fileName)){
-            return fileName;
-        }
-        Matcher matcher = Pattern.compile(".+/(.+)$").matcher(fileName);
-        if(!matcher.find()){
-            return fileName;
-        }
-        return matcher.group(1);
-    }
-
-    public static String getFileParentPath(String fileName){
-        if(ValidUtils.isEmpty(fileName)){
-            return fileName;
-        }
-        Matcher matcher = Pattern.compile(".+/").matcher(fileName);
-        return (matcher.find())? matcher.group(0) : fileName;
-    }
-
-    public static boolean isExists(String fileName){
-        if(ValidUtils.isEmpty(fileName)){
-            return false;
-        }
-        File file = new File(fileName);
-        return file.exists();
     }
 
     public static void closeStream(InputStream inputStream, OutputStream outputStream){
