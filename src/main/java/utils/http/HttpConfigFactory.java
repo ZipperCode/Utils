@@ -40,9 +40,9 @@ public class HttpConfigFactory {
     // 默认编码 UTF-8
     public static final String DEFAULT_ENCODE = "UTF-8";
     // 默认连接超时时间 15s
-    public static final int DEFAULT_CONNECT_TIMEOUT = 15000;
+    public static final int DEFAULT_CONNECT_TIMEOUT = 20000;
     // 请求数据超时时间 6s
-    public static final int DEFAULT_SOCKET_TIMEOUT = 6000;
+    public static final int DEFAULT_SOCKET_TIMEOUT = 10000;
 
     /**
      * 配置连接策略
@@ -125,7 +125,7 @@ public class HttpConfigFactory {
                 // 连接超时
                 .setConnectTimeout(DEFAULT_CONNECT_TIMEOUT)
                 // 请求连接超时
-                .setConnectionRequestTimeout(5000)
+                .setConnectionRequestTimeout(15000)
                 // cookie策略设置为默认H
                 .setCookieSpec(CookieSpecs.DEFAULT)
                 // 设置允许多次重定向
@@ -169,10 +169,15 @@ public class HttpConfigFactory {
     }
 
     public static CookieStore getCookieStore(){
-        CookieStore cookieStore = new PersistentCookieStore("D:\\111\\a.cookie");
+        CookieStore cookieStore = new PersistentCookieStore("D:\\111\\a.txt");
+        return cookieStore;
+    }
+
+    public static HttpContext getHttpContext(){
+        CookieStore cookieStore = new PersistentCookieStore("D:\\111\\a.txt");
         HttpClientContext localHttpContext = HttpClientContext.create();
         localHttpContext.setCookieStore(cookieStore);
-        return null;
+        return localHttpContext;
     }
 
 }

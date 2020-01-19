@@ -70,7 +70,7 @@ public class ThreadManager {
     }
 
     public static void executeNetWorkRunnable(Runnable runnable){
-        //使用execute而不适用submit？execute 执行线程异常更容易捕获
+        //使用execute而不使用submit？execute 执行线程异常更容易捕获
         netWorkExecutor.execute(runnable);
     }
 
@@ -78,5 +78,12 @@ public class ThreadManager {
         fileExecutor.execute(runnable);
     }
 
+    public static void shutdownNetworkExecutor(){
+        netWorkExecutor.shutdown();
+    }
+
+    public static void shutdownFileExecutor(){
+        fileExecutor.shutdown();
+    }
 
 }

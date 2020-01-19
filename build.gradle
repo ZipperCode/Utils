@@ -22,18 +22,20 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    // https://mvnrepository.com/artifact/org.apache.poi/poi
+    // https://mvnrepository.com/artifact/org.apache.poi/poi 表格处理
     compile group: 'org.apache.poi', name: 'poi', version: '4.0.1'
-    // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver aop
     runtime group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.5'
-    // https://mvnrepository.com/artifact/org.aspectj/aspectjrt
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjrt aop
     compile group: 'org.aspectj', name: 'aspectjrt', version: '1.9.5'
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api 日志
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient 同步httpclient
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.10'
-    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpasyncclient
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpasyncclient 异步httpclient
     compile group: 'org.apache.httpcomponents', name: 'httpasyncclient', version: '4.1.4'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind jackson
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
 
 
 }

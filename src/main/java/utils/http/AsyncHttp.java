@@ -71,6 +71,7 @@ public final class AsyncHttp {
             .setKeepAliveStrategy(getConnectionAliveStrategy()) // 设置连接存活策略
                 .setDefaultRequestConfig(getRequestConfig()) // 设置默认请求配置
                 .setSSLStrategy(getSSLIOSessionStrategy())
+                .setDefaultCookieStore(getCookieStore())
         .build();
         this.httpAsyncClient.start();
     }
@@ -199,8 +200,6 @@ public final class AsyncHttp {
     public static void main(String[] args) {
         System.out.println("main");
 
-        Map<String,String> map = new HashMap<>();
-        map.put("aaa","bbb");
         AsyncHttp asyncHttp = new AsyncHttp();
 //        asyncHttp.doPost("https://httpbin.org/post",paramsConvert(map),
 //               new BaseNetWorkCallBack(){
@@ -217,11 +216,9 @@ public final class AsyncHttp {
 //                   }
 //               });
         ThreadManager.executeNetWorkRunnable(()->{
-            asyncHttp.doGet("https://httpbin.org/status/200",new BaseNetWorkCallBack());
-            asyncHttp.doGet("https://httpbin.org/status/200",new BaseNetWorkCallBack());
-            asyncHttp.doGet("https://httpbin.org/status/200",new BaseNetWorkCallBack());
-            asyncHttp.doGet("https://httpbin.org/status/200",new BaseNetWorkCallBack());
+            asyncHttp.doGet("https://www.baidu.com",new BaseNetWorkCallBack());
         });
+        ThreadManager.shutdownNetworkExecutor();
         System.out.println("main end ");
     }
 }

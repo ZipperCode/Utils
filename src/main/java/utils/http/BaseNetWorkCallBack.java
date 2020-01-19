@@ -11,11 +11,6 @@ public class BaseNetWorkCallBack implements NetWorkCallback {
     @Override
     public void onSuccess(InputStream inputStream) {
         try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
             inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();

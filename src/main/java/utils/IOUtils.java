@@ -3,7 +3,9 @@ package utils;
 import org.apache.http.util.CharArrayBuffer;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class IOUtils {
     private final static String ENCODING = "UTF-8";
@@ -41,20 +43,28 @@ public class IOUtils {
         }
     }
 
-    public static void close(InputStream inputStream){
-        if(inputStream != null){
+    public static void close(InputStream...inputStreams){
+        if(inputStreams != null && inputStreams.length > 0){
             try{
-                inputStream.close();
+            for (int i = 0; i < inputStreams.length; i++) {
+                if(inputStreams[i] != null){
+                    inputStreams[i].close();
+                }
+            }
             }catch(IOException e){
                 e.printStackTrace();
             }
         }
     }
 
-    public static void close(OutputStream outputStream){
-        if(outputStream != null){
+    public static void close(OutputStream...outputStreams){
+        if(outputStreams != null && outputStreams.length > 0){
             try{
-                outputStream.close();
+                for (int i = 0; i < outputStreams.length; i++) {
+                    if(outputStreams[i] != null){
+                        outputStreams[i].close();
+                    }
+                }
             }catch(IOException e){
                 e.printStackTrace();
             }
@@ -114,10 +124,6 @@ public class IOUtils {
 //        System.out.println(getFileName("f/dd/agdfg"));
 //        System.out.println("parent Path : "+ getFileParentPath("C:/test/test/t.txt"));
         System.out.println("AB:F7:FE:F9:9E:BE:82:7F:1E:21:14:1C:F8:DD:D1:EC".replaceAll(":","").toLowerCase());
-        byte[] serialize = serialize(new A());
-
-        A a = (A) unSerializable(serialize);
-        System.out.println(a);
 
     }
 
@@ -125,6 +131,15 @@ public class IOUtils {
          int a = 10;
          String s = "aa";
          Date date = new Date();
+         List<String> list;
+         B b = new B();
+
+         A(){
+             list = new ArrayList<>();
+             list.add("hello");
+             list.add("hello world");
+             list.add("hello nihao ");
+         }
 
         @Override
         public String toString() {
@@ -132,6 +147,18 @@ public class IOUtils {
                     "a=" + a +
                     ", s='" + s + '\'' +
                     ", date=" + date +
+                    ", list=" + list +
+                    '}';
+        }
+    }
+
+    public static class B{
+        String b = "b";
+
+        @Override
+        public String toString() {
+            return "B{" +
+                    "b='" + b + '\'' +
                     '}';
         }
     }
