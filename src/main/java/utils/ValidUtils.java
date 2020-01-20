@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +28,7 @@ public class ValidUtils {
     public static boolean isEmpty(String value){
         return value == null || "".equals(value);
     }
+
 
     public static boolean isEmpty(Collection<?> collection){
         return (collection == null || collection.isEmpty());
