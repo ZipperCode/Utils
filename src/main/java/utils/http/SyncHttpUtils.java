@@ -27,9 +27,19 @@ public class SyncHttpUtils {
 
 
     public String doGet(String url){
+        HttpGet get = new HttpGet(url);
+        return doGet(get);
+    }
+
+
+    public String doGet(URI uri){
+        HttpGet get = new HttpGet(uri);
+        return doGet(get);
+    }
+
+    public String doGet(HttpGet get){
         String result = null;
         try{
-            HttpGet get = new HttpGet(url);
             ResponseHandler<String> responseHandler = (HttpResponse response)->{
                 int state = response.getStatusLine().getStatusCode();
                 if(state >= 200 && state < 300){
@@ -44,28 +54,6 @@ public class SyncHttpUtils {
             e.printStackTrace();
         }
         return result;
-    }
-
-
-    public String doGet(URI uri){
-        String result = null;
-        try{
-            HttpGet get = new HttpGet(uri);
-            ResponseHandler<String> responseHandler = (HttpResponse response)->{
-                int state = response.getStatusLine().getStatusCode();
-                if(state >= 200 && state < 300){
-                    HttpEntity entity = response.getEntity();
-                    return entity != null ? EntityUtils.toString(entity):null;
-                }else{
-                    throw new ClientProtocolException("响应错误 state = "+state);
-                }
-            };
-            result = httpClient.execute(get,responseHandler);
-        }catch (IOException e){
-            e.printStackTrace();
-        }finally {
-            return result;
-        }
     }
 
     public void proxyGet(String url,HttpHost proxyHost){

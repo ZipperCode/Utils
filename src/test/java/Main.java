@@ -3,6 +3,7 @@ import aspectj.LogAspect;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+import java.util.Date;
 
 public class Main {
 
@@ -19,6 +20,8 @@ public class Main {
         LogAspect logAspect = new LogAspect();
 
         ((A)a).aMethod();
+
+        System.out.println(new Date().getTime());;
 
     }
 

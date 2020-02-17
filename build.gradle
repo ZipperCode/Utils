@@ -36,6 +36,8 @@ dependencies {
     compile group: 'org.apache.httpcomponents', name: 'httpasyncclient', version: '4.1.4'
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind jackson
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
+    // https://mvnrepository.com/artifact/redis.clients/jedis
+    compile group: 'redis.clients', name: 'jedis', version: '3.2.0'
 
 
 }

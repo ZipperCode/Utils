@@ -52,7 +52,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static sun.net.NetworkClient.DEFAULT_CONNECT_TIMEOUT;
 import static utils.http.HttpConfigFactory.*;
 
 public final class AsyncHttp {
@@ -60,7 +59,7 @@ public final class AsyncHttp {
 
 
     private String encode = DEFAULT_ENCODE;
-    private int connectTimeout = DEFAULT_CONNECT_TIMEOUT;
+    private int connectTimeout = -1;
     private int socketTimeout = DEFAULT_SOCKET_TIMEOUT;
 
     private CloseableHttpAsyncClient httpAsyncClient;
@@ -106,9 +105,9 @@ public final class AsyncHttp {
 
     public void doPost(String url, List<NameValuePair> params, NetWorkCallback callback){
         EntityBuilder entityBuilder = EntityBuilder.create();
-        params.stream().forEach(entityBuilder::setParameters);
         HttpEntity httpEntity = entityBuilder
                 .setContentEncoding(encode)
+                .setParameters(params)
                 .setContentType(ContentType.create(
                         "application/x-www-form-urlencoded", Consts.UTF_8))
                 .build();
@@ -124,6 +123,24 @@ public final class AsyncHttp {
     }
 
 
+    public void doPost(String url,List<NameValuePair> params, Map<String,String> headers, NetWorkCallback callback){
+        HttpPost httpPost = (HttpPost) HttpMethod.getRequest(url,HttpMethod.POST);
+        if(headers != null){
+            for (Map.Entry<String,String> entry : headers.entrySet()){
+                httpPost.addHeader(new BasicHeader(entry.getKey(),entry.getValue()));
+            }
+        }
+        EntityBuilder entityBuilder = EntityBuilder.create();
+        HttpEntity httpEntity = entityBuilder
+                .setContentEncoding(encode)
+                .setParameters(params)
+                .setContentType(ContentType.create(
+                        "application/x-www-form-urlencoded", Consts.UTF_8))
+                .build();
+        httpPost.setEntity(httpEntity);
+        request(httpPost,callback);
+    }
+
     public void doPost(String url, HttpEntity httpEntity, Map<String,String> headers, NetWorkCallback callback){
         HttpPost httpPost = (HttpPost) HttpMethod.getRequest(url,HttpMethod.POST);
         if(headers != null){
@@ -135,12 +152,10 @@ public final class AsyncHttp {
         request(httpPost,callback);
     }
 
-
     private void request(HttpRequestBase request, NetWorkCallback callback){
         httpAsyncClient.execute(request, new FutureCallback<HttpResponse>() {
             @Override
             public void completed(HttpResponse result) {
-                System.out.println("onSuccess");
                 int state = result.getStatusLine().getStatusCode();
                 if(state >= 200  && state < 300){
                     try {

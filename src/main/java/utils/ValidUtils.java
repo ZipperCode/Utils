@@ -1,15 +1,9 @@
 package utils;
 
 import annotation.NonNull;
-import reflect.Test;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,10 +19,25 @@ public class ValidUtils {
         return value == 0;
     }
 
+    public static boolean isEmpty(long value){
+        return value == 0;
+    }
+
     public static boolean isEmpty(String value){
         return value == null || "".equals(value);
     }
 
+    public static boolean isEmpty(String...value){
+        if(value == null || value.length == 0){
+            return true;
+        }
+        for(String val : value){
+            if(isEmpty(val)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static boolean isEmpty(Collection<?> collection){
         return (collection == null || collection.isEmpty());
@@ -147,9 +156,4 @@ public class ValidUtils {
         return isPattern(value,"^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\\d{8}$");
     }
 
-    public static void main(String[] args) {
-        Test test = new Test();
-        test.setString("sss");
-        System.out.println(isEmpty(test,true));
-    }
 }
