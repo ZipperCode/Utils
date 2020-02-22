@@ -8,7 +8,9 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.SortingParams;
 import utils.ValidUtils;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static utils.redis.RedisConfig.*;
@@ -93,6 +95,22 @@ public class RedisUtils {
         redis.close();
         return ttl;
     }
+
+    /**
+     * 返回redis所存储的键类型
+     * @param key
+     * @return
+     */
+    public static String type(String key){
+        if(ValidUtils.isEmpty(key)){
+            return "null";
+        }
+        Jedis redis = getRedis();
+        String type = redis.type(key);
+        redis.close();
+        return type;
+    }
+
 
     /**
      * redis 是否包含键值对
@@ -214,6 +232,14 @@ public class RedisUtils {
         return sort;
     }
 
+    /**
+     * 限制排序结果
+     * @param key 要排序的key
+     * @param start 开始位置
+     * @param pageSize 页大小也就是限制数量
+     * @return
+     * @throws EmptyException
+     */
     public static List<String> sort(String key,int start, int pageSize) throws EmptyException {
         if(ValidUtils.isEmpty(key)){
             throw new EmptyException();
@@ -257,6 +283,7 @@ public class RedisUtils {
         redis.close();
         return true;
     }
+    
 
 
     public static String getString(String key){
