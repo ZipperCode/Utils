@@ -1,7 +1,4 @@
-package enumType;
-
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
+package et;
 
 public class Main {
     public static void main(String[] args) {
@@ -26,7 +23,7 @@ class Controller{
     private String name = "hahah";
 
     public void method(DoMain doMain){
-        CompleteString.valueOf(doMain.type).getStringNotifyMechanismInterface().invoke(this,new Object[]{doMain});
+        CompleteString.valueOf(doMain.type).getTestNotifyMechanismInterface().invoke(this,new Object[]{doMain});
     }
 
     public Controller(ServiceA serviceA, ServiceB serviceB) {
@@ -75,16 +72,16 @@ class DoMain{
 }
 
 enum CompleteString{
-    A("A",StringNotifyMechanismInterface.doA()),
-    B("B",StringNotifyMechanismInterface.doB()),
-    C("C",StringNotifyMechanismInterface.doC());
+    A("A", TestNotifyMechanismInterface.doA()),
+    B("B", TestNotifyMechanismInterface.doB()),
+    C("C", TestNotifyMechanismInterface.doC());
 
     private String string;
-    private StringNotifyMechanismInterface stringNotifyMechanismInterface;
+    private TestNotifyMechanismInterface testNotifyMechanismInterface;
 
-    CompleteString(String string, StringNotifyMechanismInterface stringNotifyMechanismInterface) {
+    CompleteString(String string, TestNotifyMechanismInterface testNotifyMechanismInterface) {
         this.string = string;
-        this.stringNotifyMechanismInterface = stringNotifyMechanismInterface;
+        this.testNotifyMechanismInterface = testNotifyMechanismInterface;
     }
 
     public String getString() {
@@ -95,12 +92,12 @@ enum CompleteString{
         this.string = string;
     }
 
-    public StringNotifyMechanismInterface getStringNotifyMechanismInterface() {
-        return stringNotifyMechanismInterface;
+    public TestNotifyMechanismInterface getTestNotifyMechanismInterface() {
+        return testNotifyMechanismInterface;
     }
 
-    public void setStringNotifyMechanismInterface(StringNotifyMechanismInterface stringNotifyMechanismInterface) {
-        this.stringNotifyMechanismInterface = stringNotifyMechanismInterface;
+    public void setTestNotifyMechanismInterface(TestNotifyMechanismInterface testNotifyMechanismInterface) {
+        this.testNotifyMechanismInterface = testNotifyMechanismInterface;
     }
 }
 

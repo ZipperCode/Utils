@@ -1,6 +1,4 @@
-package enumType;
-
-import java.lang.reflect.Method;
+package et;
 
 public interface NotifyMechanismInterface<T> {
     Object invoke(T targetObject, Object[] args);

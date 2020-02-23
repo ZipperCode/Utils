@@ -1,7 +1,7 @@
-package enumType;
+package et;
 
-public interface StringNotifyMechanismInterface extends NotifyMechanismInterface<Controller> {
-    static StringNotifyMechanismInterface doA(){
+public interface TestNotifyMechanismInterface extends NotifyMechanismInterface<Controller> {
+    static TestNotifyMechanismInterface doA(){
         return ((targetObject, args) -> {
             System.out.println(targetObject + " - doA()");
             DoMain doMains = (DoMain) args[0];
@@ -9,7 +9,7 @@ public interface StringNotifyMechanismInterface extends NotifyMechanismInterface
         });
     }
 
-    static StringNotifyMechanismInterface doB(){
+    static TestNotifyMechanismInterface doB(){
         return (targetObject, args) -> {
             System.out.println(targetObject + " - doB()");
             DoMain doMains = (DoMain) args[0];
@@ -17,7 +17,7 @@ public interface StringNotifyMechanismInterface extends NotifyMechanismInterface
         };
     }
 
-    static StringNotifyMechanismInterface doC(){
+    static TestNotifyMechanismInterface doC(){
         return ((targetObject, args) -> {
             System.out.println(targetObject + " - doC()");
             DoMain doMains = (DoMain) args[0];

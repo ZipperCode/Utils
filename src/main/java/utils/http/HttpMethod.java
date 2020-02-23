@@ -3,42 +3,19 @@ package utils.http;
 import org.apache.http.client.methods.*;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 public enum HttpMethod {
     GET,POST,HEAD,PUT,DELETE,TRACE,PATCH,OPTIONS;
 
     public static HttpRequestBase getRequest(String url, HttpMethod method){
-        HttpRequestBase request = null;
-        switch (method){
-            case GET:
-                request = new HttpGet(url);
-                break;
-            case PUT:
-                request = new HttpPut(url);
-                break;
-            case HEAD:
-                request = new HttpHead(url);
-                break;
-            case POST:
-                request = new HttpPost(url);
-                break;
-            case PATCH:
-                request = new HttpPatch(url);
-                break;
-            case TRACE:
-                request = new HttpTrace(url);
-                break;
-            case DELETE:
-                request  = new HttpDelete(url);
-                break;
-            case OPTIONS:
-                request = new HttpOptions(url);
-                break;
-            default:
-                request = new HttpPost(url);
-                break;
+        try {
+            URI uri = new URI(url);
+            return getRequest(uri,method);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
-        return request;
+        return new HttpGet(url);
     }
 
     public static HttpRequestBase getRequest(URI uri, HttpMethod method){

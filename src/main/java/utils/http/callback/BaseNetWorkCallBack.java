@@ -1,4 +1,4 @@
-package utils.http;
+package utils.http.callback;
 
 import exception.NetWorkException;
 import utils.http.callback.NetWorkCallback;
