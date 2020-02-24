@@ -14,8 +14,8 @@ import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import utils.http.callback.BaseNetWorkCallBack;
-import utils.http.callback.NetWorkCallback;
+import utils.http.callback.BaseHttpResponseCallBack;
+import utils.http.callback.HttpResponseCallback;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public final class AsyncHttp {
 
 
 
-    public void doGet(String url, NetWorkCallback callback){
+    public void doGet(String url, HttpResponseCallback callback){
         // 添加浏览器头
         Map<String,String> header = new HashMap<>();
         header.put(
@@ -54,7 +54,7 @@ public final class AsyncHttp {
                 "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36");
         doGet(url,header,callback,null);
     }
-    public void doGet(String url, NetWorkCallback callback,Cancellable cancellable){
+    public void doGet(String url, HttpResponseCallback callback, Cancellable cancellable){
         // 添加浏览器头
         Map<String,String> header = new HashMap<>();
         header.put(
@@ -63,7 +63,7 @@ public final class AsyncHttp {
         doGet(url,header,callback,cancellable);
     }
 
-    public void doGet(String url, Map<String,String> headers, NetWorkCallback callback, Cancellable cancellable){
+    public void doGet(String url, Map<String,String> headers, HttpResponseCallback callback, Cancellable cancellable){
         HttpGet httpGet = (HttpGet) HttpMethod.getRequest(url,HttpMethod.GET);
         for (Map.Entry<String,String> entry : headers.entrySet()){
             httpGet.addHeader(new BasicHeader(entry.getKey(),entry.getValue()));
@@ -72,7 +72,7 @@ public final class AsyncHttp {
         request(httpGet,callback);
     }
 
-    public void doPost(String url, List<NameValuePair> params, NetWorkCallback callback){
+    public void doPost(String url, List<NameValuePair> params, HttpResponseCallback callback){
         EntityBuilder entityBuilder = EntityBuilder.create();
         HttpEntity httpEntity = entityBuilder
                 .setContentEncoding(encode)
@@ -83,7 +83,7 @@ public final class AsyncHttp {
         doPost(url,httpEntity,callback);
     }
 
-    public void doPost(String url, HttpEntity httpEntity, NetWorkCallback callback){
+    public void doPost(String url, HttpEntity httpEntity, HttpResponseCallback callback){
         Map<String,String> header = new HashMap<>();
         header.put(
                 "User-Agent",
@@ -92,7 +92,7 @@ public final class AsyncHttp {
     }
 
 
-    public void doPost(String url,List<NameValuePair> params, Map<String,String> headers, NetWorkCallback callback){
+    public void doPost(String url,List<NameValuePair> params, Map<String,String> headers, HttpResponseCallback callback){
         HttpPost httpPost = (HttpPost) HttpMethod.getRequest(url,HttpMethod.POST);
         if(headers != null){
             for (Map.Entry<String,String> entry : headers.entrySet()){
@@ -110,7 +110,7 @@ public final class AsyncHttp {
         request(httpPost,callback);
     }
 
-    public void doPost(String url, HttpEntity httpEntity, Map<String,String> headers, NetWorkCallback callback){
+    public void doPost(String url, HttpEntity httpEntity, Map<String,String> headers, HttpResponseCallback callback){
         HttpPost httpPost = (HttpPost) HttpMethod.getRequest(url,HttpMethod.POST);
         if(headers != null){
             for (Map.Entry<String,String> entry : headers.entrySet()){
@@ -121,7 +121,7 @@ public final class AsyncHttp {
         request(httpPost,callback);
     }
 
-    private void request(HttpRequestBase request, NetWorkCallback callback){
+    private void request(HttpRequestBase request, HttpResponseCallback callback){
         httpAsyncClient.execute(request, new FutureCallback<HttpResponse>() {
             @Override
             public void completed(HttpResponse result) {
@@ -200,7 +200,7 @@ public final class AsyncHttp {
 //                   }
 //               });
         ThreadManager.executeNetWorkRunnable(()->{
-            asyncHttp.doGet("https://www.baidu.com",new BaseNetWorkCallBack());
+            asyncHttp.doGet("https://www.baidu.com",new BaseHttpResponseCallBack());
         });
         ThreadManager.shutdownNetworkExecutor();
         System.out.println("main end ");

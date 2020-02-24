@@ -1,12 +1,9 @@
 package utils.http.callback;
 
-import exception.NetWorkException;
-import utils.http.callback.NetWorkCallback;
-
 import java.io.IOException;
 import java.io.InputStream;
 
-public class BaseNetWorkCallBack implements NetWorkCallback {
+public class BaseHttpResponseCallBack implements HttpResponseCallback {
 
     @Override
     public void onSuccess(InputStream inputStream) {

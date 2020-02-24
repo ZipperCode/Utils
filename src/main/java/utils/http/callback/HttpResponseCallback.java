@@ -4,7 +4,7 @@ import exception.NetWorkException;
 
 import java.io.InputStream;
 
-public interface NetWorkCallback {
+public interface HttpResponseCallback {
 
     void onSuccess(InputStream inputStream);
 

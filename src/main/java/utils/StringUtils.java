@@ -4,6 +4,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtils {
 
@@ -82,10 +84,46 @@ public class StringUtils {
         return result;
     }
 
+    public static int checkPasswordStrong(String password){
+        if(StringUtils.isEmpty(password)){
+            return 0;
+        }
+        int score = 0;
+        // 简单只包含数字或者字母小写或者大写
+        String simpleRegex = "^(?:\\d+|[a_z]+|[A_Z]+)";
+        // 中等包含大小写和数字或者只包含大小写
+        String middleRegex = "^(?:\\w+)";
+        // 复杂包含数字字母大小写和一些符号
+        String complexRegex = "^(?:([\\w!@#$%^&*]+))$";
+        // 连续重复匹配
+        String repeatRegex = "(\\w)\\1+";
+
+        if(password.length() < 6){
+            return password.length();
+        }else{
+            if(password.matches(simpleRegex)){
+                score = 30;
+            }
+            if(password.matches(middleRegex)){
+                score = 60;
+            }
+            if(password.matches(complexRegex)){
+                score = 90;
+            }
+            Matcher repeatMatcher = Pattern.compile(repeatRegex).matcher(password);
+            while (repeatMatcher.find()){
+                score -= 5;
+            }
+        }
+        return score;
+    }
+
     public static void main(String[] args) {
         byte[] b = new byte[]{12,34,56,78,-10};
         String s1 = byte2String(b);
         System.out.println(s1);
         System.out.println(Arrays.toString(string2Byte(s1)));
+
+        System.out.println(checkPasswordStrong("aA11A!!vds"));
     }
 }

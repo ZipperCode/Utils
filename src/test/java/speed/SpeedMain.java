@@ -1,17 +1,11 @@
 package speed;
 
-import org.apache.commons.codec.Charsets;
-import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.CharsetUtils;
 import utils.http.AsyncHttp;
-import utils.http.callback.NetWorkCallback;
+import utils.http.callback.HttpResponseCallback;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.time.Instant;
-import java.time.ZonedDateTime;
 import java.util.*;
 
 /**
@@ -40,7 +34,7 @@ public class SpeedMain {
 //        headers.put("Accept-Encoding","gzip,deflate");
 //        headers.put("Accept-Language","zh-CN,en-US,q=0.8");
 
-        asyncHttp.doPost("http://tisu-api.speedtest.cn/api/v2/speedup/open",param,headers, new NetWorkCallback() {
+        asyncHttp.doPost("http://tisu-api.speedtest.cn/api/v2/speedup/open",param,headers, new HttpResponseCallback() {
             @Override
             public void onSuccess(InputStream inputStream) {
                 try {
