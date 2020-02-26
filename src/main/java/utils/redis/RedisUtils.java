@@ -283,8 +283,6 @@ public class RedisUtils {
         redis.close();
         return true;
     }
-    
-
 
     public static String getString(String key){
         if(ValidUtils.isEmpty(key)){
@@ -294,6 +292,10 @@ public class RedisUtils {
         String value = redis.get(key);
         return value;
     }
+
+//    public static long getStringValueLength(String key){
+//
+//    }
 
 
 }
