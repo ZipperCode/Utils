@@ -1,5 +1,6 @@
 package utils;
 
+import org.apache.http.util.ByteArrayBuffer;
 import org.apache.http.util.CharArrayBuffer;
 
 import javax.imageio.ImageIO;
@@ -22,14 +23,17 @@ public class IOUtils {
         }
         String encode = StringUtils.isEmpty(encoding) ? ENCODING: encoding;
         try {
-            CharArrayBuffer charArrayBuffer = new CharArrayBuffer(inputStream.available());
+            StringBuffer stringBuffer = new StringBuffer();
             Reader reader = new InputStreamReader(inputStream,encode);
-            char buf[] = new char[1024];
-            int len = -1;
-            while((len = reader.read(buf)) != -1){
-                charArrayBuffer.append(buf,0,len);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null){
+                stringBuffer.append(line);
             }
-            return charArrayBuffer.toString();
+            bufferedReader.close();
+            reader.close();
+            close(inputStream);
+            return stringBuffer.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }

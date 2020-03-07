@@ -1,5 +1,6 @@
 package speed;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import utils.http.AsyncHttp;
@@ -36,17 +37,17 @@ public class SpeedMain {
 
         asyncHttp.doPost("http://tisu-api.speedtest.cn/api/v2/speedup/open",param,headers, new HttpResponseCallback() {
             @Override
-            public void onSuccess(InputStream inputStream) {
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
-                    String line = null;
-                    while ((line = bufferedReader.readLine()) != null){
-                        System.out.println(line);
-                    }
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            public void onSuccess(HttpEntity entity) {
+//                try {
+//                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
+//                    String line = null;
+//                    while ((line = bufferedReader.readLine()) != null){
+//                        System.out.println(line);
+//                    }
+//                    inputStream.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
             }
 
             @Override

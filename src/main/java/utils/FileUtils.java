@@ -16,6 +16,8 @@ public class FileUtils {
 
     private static final int BUF_SIZE = 1024 * 4;
 
+    private static final String CHARSET = "UTF-8";
+
     public static String getFileExt(String fileName){
         if(ValidUtils.isEmpty(fileName)){
             return "";
@@ -158,6 +160,26 @@ public class FileUtils {
         }
     }
 
+    public static void writeFile(String fileName, String content, boolean append) throws IOException{
+        if(StringUtils.isEmpty(fileName)){
+           return;
+        }
+        File file = new File(fileName);
+        if(!file.exists()){
+            File fileDir = file.getParentFile();
+            if(!fileDir.exists()){
+                fileDir.mkdirs();
+            }
+            file.createNewFile();
+        }
+        FileOutputStream fileOutputStream = new FileOutputStream(file,append);
+        fileOutputStream.write(content.getBytes(CHARSET));
+        fileOutputStream.close();
+    }
+
+    public void writeFile(String fileName,InputStream inputStream){
+
+    }
 
 
     public static long getTime(){

@@ -2,7 +2,9 @@ package utils.http;
 
 import manager.ThreadManager;
 import org.apache.http.*;
+import org.apache.http.client.entity.DeflateDecompressingEntity;
 import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -72,6 +74,7 @@ public final class AsyncHttp {
         request(httpGet,callback);
     }
 
+
     public void doPost(String url, List<NameValuePair> params, HttpResponseCallback callback){
         EntityBuilder entityBuilder = EntityBuilder.create();
         HttpEntity httpEntity = entityBuilder
@@ -91,6 +94,13 @@ public final class AsyncHttp {
         doPost(url,httpEntity,header,callback);
     }
 
+    public void doPost(String url,Map<String,String> params, Map<String,String> headers, HttpResponseCallback callback){
+        List<NameValuePair> paramList = new ArrayList<>(params.size());
+        for(Map.Entry<String,String> entry : params.entrySet()){
+            paramList.add(new BasicNameValuePair(entry.getKey(),entry.getValue()));
+        }
+        doPost(url,paramList,headers,callback);
+    }
 
     public void doPost(String url,List<NameValuePair> params, Map<String,String> headers, HttpResponseCallback callback){
         HttpPost httpPost = (HttpPost) HttpMethod.getRequest(url,HttpMethod.POST);
@@ -126,15 +136,12 @@ public final class AsyncHttp {
             @Override
             public void completed(HttpResponse result) {
                 int state = result.getStatusLine().getStatusCode();
+                HttpEntity entity = Tool.unGzip(result.getEntity());
                 if(state >= 200  && state < 300){
-                    try {
-                        callback.onSuccess(result.getEntity().getContent());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    callback.onSuccess(entity);
                 }else{
                     try {
-                        callback.onFailure(state, EntityUtils.toString(result.getEntity()));
+                        callback.onFailure(state, EntityUtils.toString(entity));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

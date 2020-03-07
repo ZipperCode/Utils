@@ -1,12 +1,13 @@
 package utils.http.callback;
 
 import exception.NetWorkException;
+import org.apache.http.HttpEntity;
 
 import java.io.InputStream;
 
 public interface HttpResponseCallback {
 
-    void onSuccess(InputStream inputStream);
+    void onSuccess(HttpEntity httpEntity);
 
     void onFailure(int code, String msg);
 

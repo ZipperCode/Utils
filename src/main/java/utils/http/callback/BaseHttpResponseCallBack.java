@@ -1,17 +1,14 @@
 package utils.http.callback;
 
+import org.apache.http.HttpEntity;
+
 import java.io.IOException;
 import java.io.InputStream;
 
 public class BaseHttpResponseCallBack implements HttpResponseCallback {
 
     @Override
-    public void onSuccess(InputStream inputStream) {
-        try {
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void onSuccess(HttpEntity httpEntity) {
     }
 
     @Override
